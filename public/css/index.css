@@ -1,0 +1,28 @@
+body {
+  background-color: #f5f7f4;
+}
+
+.navbar {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.navbar-brand {
+  font-weight: 800;
+}
+
+h1 {
+  color: #173336;
+  font-weight: 800;
+}
+
+/* home */
+
+.home {
+  background-color: #fff;
+  padding: 16px 0;
+}
+
+.home-img {
+  width: 100%;
+}
