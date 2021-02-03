@@ -4,6 +4,7 @@ const express = require("express");
 const logger = require("morgan");
 const hbs = require("hbs");
 const routes = require("./config/routes");
+require('./config/db.config')
 
 // Express config
 const app = express();
@@ -32,6 +33,7 @@ app.use((error, req, res, next) => {
 });
 
 // Initialization on port
-app.listen(process.env.PORT || 3000, () =>
-  console.log(`Listening on port ${process.env.PORT}`)
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () =>
+  console.log(`Listening on port ${PORT}`)
 );
