@@ -1,3 +1,8 @@
+:root {
+  --c-primary: #173336;
+  --c-secondary: #6e8a72;
+}
+
 body {
   background-color: #f5f7f4;
 }
@@ -12,8 +17,18 @@ body {
 }
 
 h1 {
-  color: #173336;
+  color: var(--c-primary);
   font-weight: 800;
+}
+
+.btn-primary {
+  background-color: var(--c-primary);
+  border-color: var(--c-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--c-secondary);
+  border-color: var(--c-secondary);
 }
 
 /* home */
