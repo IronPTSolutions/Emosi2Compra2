@@ -8,19 +8,30 @@ module.exports.register = (req, res, next) => {
 module.exports.doRegister = (req, res, next) => {
   function renderWithErrors(errors) {
     res.status(400).render('users/register', {
-      errors: errors
+      errors: errors,
+      user: req.body
     })
   }
 
-  User.create(req.body)
-    .then(() => res.redirect('/'))
-    .catch((e) => {
-      if (e instanceof mongoose.Error.ValidationError) {
-        renderWithErrors(e.errors)
-      } else if (e.code === 11000) {
-        renderWithErrors({ email: 'Ya existe una cuenta con ese email' })
+  User.findOne({ email: req.body.email })
+    .then((user) => {
+      if (user) {
+        renderWithErrors({
+          email: 'Ya existe un usuario con este email'
+        })
       } else {
-        next(e)
+        User.create(req.body)
+          .then(() => {
+            res.redirect('/')
+          })
+          .catch(e => {
+            if (e instanceof mongoose.Error.ValidationError) {
+              renderWithErrors(e.errors)
+            } else {
+              next(e)
+            }
+          })
       }
     })
+    .catch(e => next(e))
 }
