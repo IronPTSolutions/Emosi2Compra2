@@ -31,6 +31,10 @@ h1 {
   border-color: var(--c-secondary);
 }
 
+.error-message {
+  color: var(--bs-red)
+}
+
 /* home */
 
 .home {

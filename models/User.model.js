@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema(
   }
 )
 
+userSchema.methods.checkPassword = function (passwordToCheck) {
+  return bcrypt.compare(passwordToCheck, this.password);
+};
+
 userSchema.pre('save', function(next) {
   const user = this
 
