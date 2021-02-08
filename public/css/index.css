@@ -35,6 +35,10 @@ h1 {
   color: var(--bs-red)
 }
 
+.success-message {
+  color: var(--bs-green)
+}
+
 /* home */
 
 .home {
