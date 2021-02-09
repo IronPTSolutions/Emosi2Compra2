@@ -9,6 +9,7 @@ module.exports.home = (req, res, next) => {
         products: products.map((p, i) => {
           p = p.toJSON();
           p.likeCount = p.likes.length;
+          p.disabled = req.currentUser ? p.seller.toString() === req.currentUser._id.toString() : false;
           p.likedByUser = req.currentUser
             ? p.likes.some(
                 (l) => l.user.toString() == req.currentUser._id.toString()

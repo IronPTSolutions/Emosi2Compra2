@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const User = require("../models/User.model");
+const Like = require("../models/Like.model");
 const { sendActivationEmail } = require("../config/mailer.config");
+const Product = require("../models/Product.model");
 
 module.exports.register = (req, res, next) => {
   res.render("users/register");
@@ -79,7 +81,16 @@ module.exports.logout = (req, res, next) => {
 };
 
 module.exports.profile = (req, res, next) => {
-  res.render("users/profile");
+  Product.find(req.currentUser ? { seller: req.currentUser._id } : {}).then(
+    (products) => {
+      res.render("users/profile", {
+        products: products.map((p) => {
+          p.disabled = true;
+          return p;
+        }),
+      });
+    }
+  );
 };
 
 module.exports.activate = (req, res, next) => {
@@ -91,11 +102,24 @@ module.exports.activate = (req, res, next) => {
       if (u) {
         res.render("users/login", {
           user: req.body,
-          message: "Felicidades, has activado tu cuenta. Ya puedes iniciar sesión",
+          message:
+            "Felicidades, has activado tu cuenta. Ya puedes iniciar sesión",
         });
       } else {
-        res.redirect("/")
+        res.redirect("/");
       }
     })
     .catch((e) => next(e));
+};
+
+module.exports.wishlist = (req, res, next) => {
+  Like.find({ user: req.currentUser._id })
+    .populate("product")
+    .then((likes) => {
+      res.render("users/wishlist", {
+        products: likes.map((l) => {
+          return { ...l.toJSON().product, likedByUser: true };
+        }),
+      });
+    });
 };

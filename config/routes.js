@@ -16,6 +16,7 @@ router.post("/login", secure.isNotAuthenticated, usersController.doLogin);
 router.get("/activate/:token", secure.isNotAuthenticated, usersController.activate);
 router.post("/logout", secure.isAuthenticated, usersController.logout);
 router.get("/profile", secure.isAuthenticated, usersController.profile);
+router.get("/wishlist", secure.isAuthenticated, usersController.wishlist);
 
 router.get("/product/:productId/like", secure.isAuthenticated, miscController.like);
 

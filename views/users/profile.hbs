@@ -1,4 +1,11 @@
 <div class="container">
-  <h1>¡Hola!</h1>
-  <p>Actualmente estás conectado como {{currentUser.email}}</p>
+  <div class="row">
+    <h1>¡Hola!</h1>
+    <p>Actualmente estás conectado como {{currentUser.email}}</p>
+  </div>
+  <div class="row row-cols-3 row-cols-md-4 g-4">
+    {{#each products as |productData|}}
+    {{>product productData}}
+    {{/each}}
+  </div>
 </div>
