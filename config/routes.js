@@ -17,4 +17,6 @@ router.get("/activate/:token", secure.isNotAuthenticated, usersController.activa
 router.post("/logout", secure.isAuthenticated, usersController.logout);
 router.get("/profile", secure.isAuthenticated, usersController.profile);
 
+router.get("/product/:productId/like", secure.isAuthenticated, miscController.like);
+
 module.exports = router;

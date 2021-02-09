@@ -4,9 +4,9 @@ const express = require("express");
 const logger = require("morgan");
 const hbs = require("hbs");
 const routes = require("./config/routes");
-const session = require('./config/session.config');
-const User = require("./models/user.model");
-require('./config/db.config')
+const session = require("./config/session.config");
+const User = require("./models/User.model");
+require("./config/db.config");
 
 // Express config
 const app = express();
@@ -21,19 +21,18 @@ hbs.registerPartials(__dirname + "/views/partials");
 
 app.use((req, res, next) => {
   if (req.session.currentUserId) {
-    User.findById(req.session.currentUserId)
-      .then(user => {
-        if (user) {
-          req.currentUser = user
-          res.locals.currentUser = user
+    User.findById(req.session.currentUserId).then((user) => {
+      if (user) {
+        req.currentUser = user;
+        res.locals.currentUser = user;
 
-          next()
-        }
-      })
+        next();
+      }
+    });
   } else {
-    next()
+    next();
   }
-})
+});
 
 app.use("/", routes);
 
@@ -52,7 +51,5 @@ app.use((error, req, res, next) => {
 });
 
 // Initialization on port
-const PORT = process.env.PORT || 3000
-app.listen(PORT, () =>
-  console.log(`Listening on port ${PORT}`)
-);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

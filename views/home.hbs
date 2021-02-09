@@ -9,5 +9,10 @@
         <img class="home-img" src="/img/home.png" alt="home">
       </div>
     </div>
+    <div class="row row-cols-3 row-cols-md-4 g-4">
+      {{#each products as |productData|}}
+      {{>product productData}}
+      {{/each}}
+    </div>
   </div>
 </div>

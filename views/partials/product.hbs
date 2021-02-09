@@ -1,0 +1,12 @@
+<div class="col">
+	<div class="card" id="product-{{_id}}">
+		<img src="{{image}}" class="card-img-top" alt="...">
+		<div class="card-body">
+			<h5 class="card-title">{{name}}</h5>
+			<div class="card-buttons">
+				<a href="/product/{{_id}}" class="btn btn-primary">See more</a>
+				<a href="/product/{{_id}}/like" class="likes {{#unless likedByUser}}unliked{{/unless}}">😍 {{likeCount}}</a>
+			</div>
+		</div>
+	</div>
+</div>

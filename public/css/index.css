@@ -49,3 +49,18 @@ h1 {
 .home-img {
   width: 100%;
 }
+
+.likes {
+  text-decoration: none;
+  color: black;
+}
+
+.unliked {
+  filter: grayscale();
+}
+
+.card-buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
