@@ -9,7 +9,9 @@ module.exports.home = (req, res, next) => {
         products: products.map((p, i) => {
           p = p.toJSON();
           p.likeCount = p.likes.length;
-          p.disabled = req.currentUser ? p.seller.toString() === req.currentUser._id.toString() : false;
+          p.disabled = req.currentUser
+            ? p.seller.toString() === req.currentUser._id.toString()
+            : true;
           p.likedByUser = req.currentUser
             ? p.likes.some(
                 (l) => l.user.toString() == req.currentUser._id.toString()
@@ -30,10 +32,14 @@ module.exports.like = (req, res, next) => {
           product: req.params.productId,
           user: req.currentUser._id,
         }).then(() => {
-          res.redirect("/");
+          // Dándole a like
+          res.json({ add: 1 });
         });
       } else {
-        return Like.findByIdAndDelete(like._id).then(() => res.redirect("/"));
+        return Like.findByIdAndDelete(like._id).then(() => {
+          // Dándole a dislike
+          res.json({ add: -1 });
+        });
       }
     })
     .catch((e) => next(e));
