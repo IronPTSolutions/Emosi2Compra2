@@ -4,7 +4,7 @@
 		<div class="card-body">
 			<h5 class="card-title">{{name}}</h5>
 			<div class="card-buttons">
-				<a href="/product/{{_id}}" class="btn btn-primary">See more</a>
+				<a href="/products/{{_id}}" class="btn btn-primary">Ver</a>
 				<button onclick="like(this)" {{#if disabled}}disabled{{/if}} data-productid="{{_id}}" class="likes {{#unless likedByUser}}unliked{{/unless}}">😍 <span>{{likeCount}}</span></button>
 			</div>
 		</div>

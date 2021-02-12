@@ -1,0 +1,20 @@
+<div class="container">
+	<div class="mb-3">
+		<p><b>Nombre: </b>{{product.name}}</p>
+	</div>
+	<div class="mb-3">
+		<p><b>Descripción: </b>{{product.description}}</p>
+	</div>
+	<div class="mb-3">
+		<p><b>Precio: </b>{{product.price}}€</p>
+	</div>
+	<div class="mb-3">
+		<p><b>Imagen: </b><img src="{{product.image}}" alt="Product image"></p>
+	</div>
+	{{#if canEdit}}
+	<div class="mb-3">
+		<a href="/products/{{product._id}}/edit" class="btn btn-primary">Editar</a>
+		<a href="/products/{{product._id}}/delete" class="btn btn-warning">Eliminar</a>
+	</div>
+	{{/if}}
+</div>

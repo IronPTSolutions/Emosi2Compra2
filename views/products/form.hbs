@@ -1,0 +1,45 @@
+<div class="container">
+	<form action="/products{{#if product._id}}/{{product._id}}/edit{{else}}/create{{/if}}" method="POST">
+		<div class="mb-3">
+			<label for="name" class="form-label">Nombre</label>
+			<input type="text" name="name" value="{{product.name}}"
+				class="form-control {{#if errors.name}}is-invalid{{/if}}" id="name" required>
+			{{#if errors.name}}
+			<div class="invalid-feedback">
+				{{errors.name}}
+			</div>
+			{{/if}}
+		</div>
+		<div class="mb-3">
+			<label for="description" class="form-label">Descripción</label>
+			<input type="text" name="description" value="{{product.description}}"
+				class="form-control {{#if errors.description}}is-invalid{{/if}}" id="description" required>
+			{{#if errors.description}}
+			<div class="invalid-feedback">
+				{{errors.description}}
+			</div>
+			{{/if}}
+		</div>
+		<div class="mb-3">
+			<label for="price" class="form-label">Precio</label>
+			<input type="number" name="price" value="{{product.price}}" step=".01"
+				class="form-control {{#if errors.price}}is-invalid{{/if}}" id="price" required>
+			{{#if errors.price}}
+			<div class="invalid-feedback">
+				{{errors.price}}
+			</div>
+			{{/if}}
+		</div>
+		<div class="mb-3">
+			<label for="image" class="form-label">Imagen</label>
+			<input type="url" name="image" value="{{product.image}}"
+				class="form-control {{#if errors.image}}is-invalid{{/if}}" id="image" required>
+			{{#if errors.image}}
+			<div class="invalid-feedback">
+				{{errors.image}}
+			</div>
+			{{/if}}
+		</div>
+		<button type="submit" class="btn btn-primary">{{#if product._id}}Editar{{else}}Crear{{/if}} producto</button>
+	</form>
+</div>
