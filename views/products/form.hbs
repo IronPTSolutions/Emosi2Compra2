@@ -1,5 +1,5 @@
 <div class="container">
-	<form action="/products{{#if product._id}}/{{product._id}}/edit{{else}}/create{{/if}}" method="POST">
+	<form action="/products{{#if product._id}}/{{product._id}}/edit{{else}}/create{{/if}}" method="POST" enctype="multipart/form-data">
 		<div class="mb-3">
 			<label for="name" class="form-label">Nombre</label>
 			<input type="text" name="name" value="{{product.name}}"
@@ -32,8 +32,8 @@
 		</div>
 		<div class="mb-3">
 			<label for="image" class="form-label">Imagen</label>
-			<input type="url" name="image" value="{{product.image}}"
-				class="form-control {{#if errors.image}}is-invalid{{/if}}" id="image" required>
+			<input type="file" name="image" value="{{product.image}}"
+				class="form-control {{#if errors.image}}is-invalid{{/if}}" id="image" {{#unless product._id}}required{{/unless}}>
 			{{#if errors.image}}
 			<div class="invalid-feedback">
 				{{errors.image}}

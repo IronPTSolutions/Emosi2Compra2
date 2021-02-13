@@ -13,6 +13,10 @@ module.exports.doCreate = (req, res, next) => {
     });
   }
 
+  if (req.file) {
+    req.body.image = `/uploads/${req.file.filename}`;
+  }
+
   Product.create(req.body)
     .then((u) => {
       res.redirect(`/products/${id}`);
@@ -48,6 +52,11 @@ module.exports.doEdit = (req, res, next) => {
       product: req.body,
     });
   }
+
+  if (req.file) {
+    req.body.image = `/uploads/${req.file.filename}`;
+  }
+
   Product.findById(req.params.id)
     .then((p) => {
       if (!p || p.seller.toString() !== req.currentUser.id.toString()) {
