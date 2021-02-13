@@ -20,12 +20,12 @@ router.get("/profile", secure.isAuthenticated, usersController.profile);
 router.get("/wishlist", secure.isAuthenticated, usersController.wishlist);
 
 // Products
-router.get("/products/create", productsController.create);
-router.post("/products/create", productsController.doCreate);
+router.get("/products/create", secure.isAuthenticated, productsController.create);
+router.post("/products/create", secure.isAuthenticated, productsController.doCreate);
 router.get("/products/:id", productsController.detail);
-router.get("/products/:id/edit", productsController.edit);
-router.post("/products/:id/edit", productsController.doEdit);
-router.get("/products/:id/delete", productsController.delete);
+router.get("/products/:id/edit", secure.isAuthenticated, productsController.edit);
+router.post("/products/:id/edit", secure.isAuthenticated, productsController.doEdit);
+router.get("/products/:id/delete", secure.isAuthenticated, productsController.delete);
 
 // Likes
 router.get("/product/:productId/like", secure.isAuthenticated, miscController.like);
