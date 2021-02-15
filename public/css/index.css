@@ -31,6 +31,14 @@ h1 {
   border-color: var(--c-secondary);
 }
 
+.error-message {
+  color: var(--bs-red)
+}
+
+.success-message {
+  color: var(--bs-green)
+}
+
 /* home */
 
 .home {
@@ -40,4 +48,21 @@ h1 {
 
 .home-img {
   width: 100%;
+}
+
+.likes {
+  text-decoration: none;
+  color: black;
+  background-color: transparent;
+  border: none;
+}
+
+.unliked {
+  filter: grayscale();
+}
+
+.card-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

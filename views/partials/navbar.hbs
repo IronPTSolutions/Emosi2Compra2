@@ -14,7 +14,16 @@
             Mi cuenta
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="/register">Registro</a></li>
+            {{#if currentUser}}
+              <li><a class="dropdown-item" href="/profile">Perfil</a></li>
+              <li><a class="dropdown-item" href="/wishlist">Lista de deseos</a></li>
+              <form action="/logout" method="POST">
+                <li><button class="dropdown-item">Cerrar sesión</button></li>
+              </form>
+            {{else}}
+              <li><a class="dropdown-item" href="/register">Registro</a></li>
+              <li><a class="dropdown-item" href="/login">Iniciar sesión</a></li>
+            {{/if}}
           </ul>
         </li>
       </ul>
