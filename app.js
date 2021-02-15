@@ -4,9 +4,12 @@ const express = require("express");
 const logger = require("morgan");
 const hbs = require("hbs");
 const routes = require("./config/routes");
+const passport = require('passport');
+
 const session = require("./config/session.config");
-const User = require("./models/User.model");
+
 require("./config/db.config");
+require('./config/passport.config')
 
 // Express config
 const app = express();
@@ -15,24 +18,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 app.use(logger("dev"));
 app.use(session);
+app.use(passport.initialize());
+app.use(passport.session());
 app.set("views", __dirname + "/views");
 app.set("view engine", "hbs");
 hbs.registerPartials(__dirname + "/views/partials");
 
 app.use((req, res, next) => {
-  if (req.session.currentUserId) {
-    User.findById(req.session.currentUserId).then((user) => {
-      if (user) {
-        req.currentUser = user;
-        res.locals.currentUser = user;
+  req.currentUser = req.user;
+  res.locals.currentUser = req.user;
 
-        next();
-      }
-    });
-  } else {
-    next();
-  }
-});
+  next()
+})
 
 app.use("/", routes);
 
