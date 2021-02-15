@@ -26,6 +26,9 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  social: {
+    google: String
+  },
   activationToken: {
     type: String,
     default: () => {

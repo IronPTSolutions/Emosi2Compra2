@@ -1,3 +1,4 @@
+const passport = require('passport')
 const router = require("express").Router();
 const miscController = require("../controllers/misc.controller");
 const usersController = require("../controllers/users.controller");
@@ -5,6 +6,8 @@ const productsController = require("../controllers/products.controller");
 const secure = require("../middlewares/secure.middleware");
 const multer = require("multer");
 const upload = multer({ dest: "./public/uploads/" });
+
+const GOOGLE_SCOPES = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile']
 
 // Misc
 
@@ -21,6 +24,8 @@ router.get(
   secure.isNotAuthenticated,
   usersController.activate
 );
+router.get('/authenticate/google', passport.authenticate('google-auth', { scope: GOOGLE_SCOPES }))
+router.get('/authenticate/google/cb', usersController.doLoginGoogle)
 router.post("/logout", secure.isAuthenticated, usersController.logout);
 router.get("/profile", secure.isAuthenticated, usersController.profile);
 router.get("/wishlist", secure.isAuthenticated, usersController.wishlist);
