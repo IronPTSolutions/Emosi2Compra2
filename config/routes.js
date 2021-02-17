@@ -28,6 +28,7 @@ router.get('/authenticate/google/cb', usersController.doLoginGoogle)
 router.post("/logout", secure.isAuthenticated, usersController.logout);
 router.get("/profile", secure.isAuthenticated, usersController.profile);
 router.get("/wishlist", secure.isAuthenticated, usersController.wishlist);
+router.get("/users", secure.checkRole('ADMIN'), usersController.list);
 
 // Products
 router.get(
