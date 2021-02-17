@@ -9,6 +9,7 @@ Promise.all([Product.deleteMany(), User.deleteMany()]).then(() => {
     User.create({
       email: faker.internet.email(),
       password: "Abcde1234",
+      active: "true"
     }).then((u) => {
       // For each user, create N products
       for (let j = 0; j < 3; j++) {
