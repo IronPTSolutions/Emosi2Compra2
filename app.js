@@ -2,7 +2,6 @@ require("dotenv").config();
 const createError = require("http-errors");
 const express = require("express");
 const logger = require("morgan");
-const hbs = require("hbs");
 const routes = require("./config/routes");
 const passport = require('passport');
 
@@ -10,6 +9,7 @@ const session = require("./config/session.config");
 
 require("./config/db.config");
 require('./config/passport.config')
+require('./config/hbs.config')
 
 // Express config
 const app = express();
@@ -22,7 +22,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.set("views", __dirname + "/views");
 app.set("view engine", "hbs");
-hbs.registerPartials(__dirname + "/views/partials");
 
 app.use((req, res, next) => {
   req.currentUser = req.user;

@@ -26,6 +26,11 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  role: {
+    type: String,
+    enum: ['ADMIN', 'USER'],
+    default: 'USER'
+  },
   social: {
     google: String
   },
@@ -47,10 +52,12 @@ userSchema.methods.checkPassword = function (passwordToCheck) {
 };
 
 userSchema.pre("save", function (next) {
-  const user = this;
+  if (this.email === process.env.ADMIN_EMAIL) {
+    this.role = 'ADMIN'
+  }
 
-  if (user.isModified("password")) {
-    bcrypt.hash(user.password, SALT_ROUNDS).then((hash) => {
+  if (this.isModified("password")) {
+    bcrypt.hash(this.password, SALT_ROUNDS).then((hash) => {
       this.password = hash;
       next();
     });

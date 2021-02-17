@@ -4,8 +4,7 @@ const miscController = require("../controllers/misc.controller");
 const usersController = require("../controllers/users.controller");
 const productsController = require("../controllers/products.controller");
 const secure = require("../middlewares/secure.middleware");
-const multer = require("multer");
-const upload = multer({ dest: "./public/uploads/" });
+const upload = require('./storage.config')
 
 const GOOGLE_SCOPES = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile']
 
@@ -29,6 +28,7 @@ router.get('/authenticate/google/cb', usersController.doLoginGoogle)
 router.post("/logout", secure.isAuthenticated, usersController.logout);
 router.get("/profile", secure.isAuthenticated, usersController.profile);
 router.get("/wishlist", secure.isAuthenticated, usersController.wishlist);
+router.get("/users", secure.checkRole('ADMIN'), usersController.list);
 
 // Products
 router.get(
@@ -39,6 +39,7 @@ router.get(
 router.post(
   "/products/create",
   secure.isAuthenticated,
+  upload.single("image"),
   productsController.doCreate
 );
 router.get("/products/:id", productsController.detail);

@@ -14,12 +14,14 @@ module.exports.doCreate = (req, res, next) => {
   }
 
   if (req.file) {
-    req.body.image = `/uploads/${req.file.filename}`;
+    req.body.image = req.file.path;
   }
+
+  req.body.seller = req.currentUser.id
 
   Product.create(req.body)
     .then((u) => {
-      res.redirect(`/products/${id}`);
+      res.redirect(`/products/${u.id}`);
     })
     .catch((e) => {
       if (e instanceof mongoose.Error.ValidationError) {
@@ -54,7 +56,7 @@ module.exports.doEdit = (req, res, next) => {
   }
 
   if (req.file) {
-    req.body.image = `/uploads/${req.file.filename}`;
+    req.body.image = req.file.path;
   }
 
   Product.findById(req.params.id)

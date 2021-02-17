@@ -1,0 +1,18 @@
+<div class="container">
+  <table class="table table-striped">
+    <thead>
+      <th scope="col">Email</th>
+      <th scope="col">Role</th>
+      <th scope="col">Active</th>
+    </thead>
+    <tbody>
+      {{#each users as |user|}}
+        <tr>
+          <td>{{user.email}}</td>
+          <td>{{user.role}}</td>
+          <td>{{user.active}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
