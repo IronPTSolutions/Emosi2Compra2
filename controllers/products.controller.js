@@ -1,7 +1,9 @@
 const Product = require("../models/Product.model");
 const mongoose = require("mongoose");
+const flash = require('connect-flash');
 
 module.exports.create = (req, res, next) => {
+  req.flash('flashMessage', 'Vas a crear un producto!')
   res.render("products/form");
 };
 
@@ -21,6 +23,7 @@ module.exports.doCreate = (req, res, next) => {
 
   Product.create(req.body)
     .then((u) => {
+      req.flash('flashMessage', '¡Producto creado con éxito!')
       res.redirect(`/products/${u.id}`);
     })
     .catch((e) => {

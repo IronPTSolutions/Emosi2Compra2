@@ -4,6 +4,7 @@ const express = require("express");
 const logger = require("morgan");
 const routes = require("./config/routes");
 const passport = require('passport');
+const flash = require('connect-flash');
 
 const session = require("./config/session.config");
 
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 app.use(logger("dev"));
 app.use(session);
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.set("views", __dirname + "/views");
@@ -26,6 +28,8 @@ app.set("view engine", "hbs");
 app.use((req, res, next) => {
   req.currentUser = req.user;
   res.locals.currentUser = req.user;
+
+  res.locals.flashMessage = req.flash('flashMessage')
 
   next()
 })
