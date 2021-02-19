@@ -40,6 +40,35 @@
 			</div>
 			{{/if}}
 		</div>
+		<div class="mb-3 d-none">
+			<input type="string" name="lat" value="{{lat}}"
+				class="form-control {{#if errors.price}}is-invalid{{/if}}" id="lat" required>
+			<input type="string" name="lng" value="{{lng}}"
+				class="form-control {{#if errors.price}}is-invalid{{/if}}" id="lng" required>
+			{{#if errors.price}}
+			<div class="invalid-feedback">
+				{{errors.price}}
+			</div>
+			{{/if}}
+		</div>
+		<div id="map" class="mb-3"></div>
 		<button type="submit" class="btn btn-primary">{{#if product._id}}Editar{{else}}Crear{{/if}} producto</button>
 	</form>
 </div>
+
+<script>
+	{{#if lat}}
+		let marker = { lat: {{lat}}, lng: {{lng}} }
+	{{else}}
+		let marker = null
+	{{/if}}
+	const editable = true
+</script>
+
+
+<script src="/js/map.js"></script>
+
+<script
+	src="https://maps.googleapis.com/maps/api/js?key={{mapsKey}}&callback=initMap&libraries=&v=weekly"
+	async
+></script>
