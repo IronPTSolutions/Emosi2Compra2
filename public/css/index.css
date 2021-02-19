@@ -66,3 +66,7 @@ h1 {
   justify-content: space-between;
   align-items: center;
 }
+
+#map {
+  height: 400px;
+}

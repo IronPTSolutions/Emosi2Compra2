@@ -12,3 +12,10 @@ const like = (element) => {
 };
 
 //  /product/{{_id}}/like
+
+setTimeout(() => {
+  document.querySelectorAll('.toast').forEach(toast => {
+    console.log(toast)
+    new bootstrap.Toast(toast).hide()
+  })  
+}, 5000);

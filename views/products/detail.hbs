@@ -11,6 +11,8 @@
 	<div class="mb-3">
 		<p><b>Imagen: </b><img class="w-100" src="{{product.image}}" alt="Product image"></p>
 	</div>
+
+	<div id="map" class="mb-3"></div>
 	{{#if canEdit}}
 	<div class="mb-3">
 		<a href="/products/{{product._id}}/edit" class="btn btn-primary">Editar</a>
@@ -18,3 +20,17 @@
 	</div>
 	{{/if}}
 </div>
+
+<script>
+	let marker = { lat: {{lat}}, lng: {{lng}} };
+
+	let editable = false
+</script>
+
+
+<script src="/js/map.js"></script>
+
+<script
+	src="https://maps.googleapis.com/maps/api/js?key={{mapsKey}}&callback=initMap&libraries=&v=weekly"
+	async
+></script>

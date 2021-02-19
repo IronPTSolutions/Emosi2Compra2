@@ -24,6 +24,17 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    location: {
+      type: {
+        type: String,
+        enum: ['Point'],
+        default: 'Point'
+      },
+      coordinates: {
+        type: [Number],
+        required: true
+      }
+    }
   },
   {
     timestamps: true,
@@ -32,6 +43,8 @@ const productSchema = new mongoose.Schema(
     },
   }
 );
+
+productSchema.index({ location: '2dsphere' });
 
 productSchema.virtual("likes", {
   ref: "Like",
