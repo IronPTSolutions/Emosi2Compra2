@@ -19,6 +19,10 @@ Promise.all([Product.deleteMany(), User.deleteMany()]).then(() => {
           price: faker.commerce.price(),
           seller: u._id,
           image: faker.image.image(),
+          location: {
+            type: 'Point',
+            coordinates: [faker.address.longitude(), faker.address.latitude()]
+          }
         }).then((p) => console.log(`Created ${p.name} by ${u.email}`));
       }
     });

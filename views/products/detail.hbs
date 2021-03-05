@@ -8,6 +8,11 @@
 	<div class="mb-3">
 		<p><b>Precio: </b>{{product.price}}€</p>
 	</div>
+	{{#if canBuy}}
+	<div class="mb-3">
+		<button class="btn btn-primary" id="checkout-btn">Comprar</button>
+	</div>
+	{{/if}}
 	<div class="mb-3">
 		<p><b>Imagen: </b><img class="w-100" src="{{product.image}}" alt="Product image"></p>
 	</div>
@@ -27,8 +32,14 @@
 	let editable = false
 </script>
 
+<script>
+	const productId = "{{product.id}}"
+</script>
 
 <script src="/js/map.js"></script>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script src="/js/checkout.js"></script>
 
 <script
 	src="https://maps.googleapis.com/maps/api/js?key={{mapsKey}}&callback=initMap&libraries=&v=weekly"

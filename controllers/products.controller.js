@@ -1,6 +1,8 @@
 const Product = require("../models/Product.model");
 const mongoose = require("mongoose");
 const flash = require('connect-flash');
+const stripe = require('stripe')(process.env.STRIPE_SECRET);
+const createError = require("http-errors");
 
 module.exports.create = (req, res, next) => {
   req.flash('flashMessage', 'Vas a crear un producto!')
@@ -99,11 +101,14 @@ module.exports.doEdit = (req, res, next) => {
 module.exports.detail = (req, res, next) => {
   Product.findById(req.params.id)
     .then((product) => {
+      const isOwner = req.currentUser
+      ? product.seller.toString() === req.currentUser.id.toString()
+      : false;
+
       res.render("products/detail", {
         product,
-        canEdit: req.currentUser
-          ? product.seller.toString() === req.currentUser.id.toString()
-          : false,
+        canBuy: product.available && !isOwner,
+        canEdit: isOwner,
         lat: product.location.coordinates[1],
         lng: product.location.coordinates[0]
       });
@@ -118,3 +123,64 @@ module.exports.delete = (req, res, next) => {
     })
     .catch((e) => next(e));
 };
+
+module.exports.buy = (req, res, next) => {
+  Product.findById(req.params.id)
+    .then(product => {
+      if (!product) {
+        next(createError(404));
+      } else if(!product.available) {
+        next(createError(403))
+      } else {
+        return stripe.checkout.sessions.create({
+          payment_method_types: ['card'],
+          mode: 'payment',
+          line_items: [{
+            amount: product.price * 100,
+            currency: 'EUR',
+            name: product.name,
+            quantity: 1
+          }],
+          customer_email: req.currentUser.email,
+          success_url: `http://localhost:3000?session_id={CHECKOUT_SESSION_ID}`,
+          cancel_url: `http://localhost:3000/products/${product.id}`,
+          metadata: {
+            product: product.id
+          }
+        })
+          .then(session => {
+            res.json({
+              sessionId: session.id,
+            });
+          })
+      }
+    })
+    .catch(next)
+}
+
+module.exports.webhook = (req, res, next) => {
+  const sig = req.headers['stripe-signature'];
+
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_SIGNING_SECRET);
+  } catch (err) {
+    console.error(err)
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object;
+
+    // Fulfill the purchase...
+    Product.findByIdAndUpdate(session.metadata.product, { available: false }, { new: true })
+    .then(() => {
+        console.log(`Product with id ${session.metadata.product} has been bought`)
+        res.status(200)
+      })
+    .catch(next)
+  } else {
+    res.status(200)
+  }
+}
