@@ -5,6 +5,7 @@ const usersController = require("../controllers/users.controller");
 const productsController = require("../controllers/products.controller");
 const secure = require("../middlewares/secure.middleware");
 const upload = require('./storage.config')
+const express = require("express");
 
 const GOOGLE_SCOPES = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile']
 
@@ -59,6 +60,12 @@ router.get(
   secure.isAuthenticated,
   productsController.delete
 );
+router.post(
+  "/products/:id/buy",
+  secure.isAuthenticated,
+  productsController.buy
+);
+router.post("/products/webhook", express.raw({type: 'application/json'}), productsController.webhook)
 
 // Likes
 router.get(

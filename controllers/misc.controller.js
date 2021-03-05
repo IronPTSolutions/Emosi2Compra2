@@ -2,7 +2,7 @@ const Product = require("../models/Product.model");
 const Like = require("../models/Like.model");
 
 module.exports.home = (req, res, next) => {
-  Product.find()
+  Product.find({ available: true })
     .populate("likes")
     .then((products) => {
       res.render("home", {
