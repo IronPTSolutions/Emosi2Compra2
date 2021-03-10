@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node app.js",
     "dev": "nodemon -e hbs,css,js app.js",
     "seeds": "node bin/seeds.js"
   },
