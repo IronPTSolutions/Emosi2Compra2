@@ -9,7 +9,8 @@ Promise.all([Product.deleteMany(), User.deleteMany()]).then(() => {
     User.create({
       email: faker.internet.email(),
       password: "Abcde1234",
-      active: "true"
+      active: "true",
+      role: "USER",
     }).then((u) => {
       // For each user, create N products
       for (let j = 0; j < 3; j++) {
@@ -19,6 +20,10 @@ Promise.all([Product.deleteMany(), User.deleteMany()]).then(() => {
           price: faker.commerce.price(),
           seller: u._id,
           image: faker.image.image(),
+          location: {
+            type: "Point",
+            coordinates: [faker.address.longitude(), faker.address.latitude()],
+          },
         }).then((p) => console.log(`Created ${p.name} by ${u.email}`));
       }
     });
