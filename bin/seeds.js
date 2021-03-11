@@ -1,3 +1,4 @@
+require("dotenv").config();
 const faker = require("faker");
 require("../config/db.config");
 const Product = require("../models/Product.model");
